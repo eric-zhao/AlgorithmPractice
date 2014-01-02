@@ -2,9 +2,9 @@
 
 void BT::insert(int d)
     {
-        node* t = new node;
-        node* parent;
-        t->data = d;
+        TreeNode* t = new TreeNode;
+        TreeNode* parent;
+        t->val = d;
         t->left = NULL;
         t->right = NULL;
         parent = NULL;
@@ -12,17 +12,17 @@ void BT::insert(int d)
         if(isEmpty()) root = t;
         else
         {
-            //Note: ALL insertions are as leaf nodes
-            node* curr;
+            //Note: ALL insertions are as leaf TreeNodes
+            TreeNode* curr;
             curr = root;
-            // Find the Node's parent
+            // Find the TreeNode's parent
             while(curr)
             {
                 parent = curr;
-                if(t->data > curr->data) curr = curr->right;
+                if(t->val > curr->val) curr = curr->right;
                 else curr = curr->left;
             }
-            if(t->data < parent->data)
+            if(t->val < parent->val)
                parent->left = t;
             else
                parent->right = t;
@@ -32,12 +32,12 @@ void BT::insert(int d)
     {
       inorder(root);
     }
-    void BT::inorder(node* p)
+    void BT::inorder(TreeNode* p)
     {
         if(p != NULL)
         {
             if(p->left) inorder(p->left);
-            cout<<" "<<p->data<<" ";
+            cout<<" "<<p->val<<" ";
             if(p->right) inorder(p->right);
         }
         else return;
@@ -46,11 +46,11 @@ void BT::insert(int d)
     {
         preorder(root);
     }
-    void BT::preorder(node* p)
+    void BT::preorder(TreeNode* p)
     {
         if(p != NULL)
         {
-            cout<<" "<<p->data<<" ";
+            cout<<" "<<p->val<<" ";
             if(p->left) preorder(p->left);
             if(p->right) preorder(p->right);
         }
@@ -60,13 +60,13 @@ void BT::insert(int d)
     {
         postorder(root);
     }
-    void BT::postorder(node* p)
+    void BT::postorder(TreeNode* p)
     {
         if(p != NULL)
         {
             if(p->left) postorder(p->left);
             if(p->right) postorder(p->right);
-            cout<<" "<<p->data<<" ";
+            cout<<" "<<p->val<<" ";
         }
         else return;
     }
@@ -74,11 +74,11 @@ void BT::insert(int d)
         vector<int> myvector;
         output(root, myvector);
     }
-    void BT::output(node* p, vector<int> myvector)
+    void BT::output(TreeNode* p, vector<int> myvector)
     {
         if(p == NULL) return;
         else{
-            myvector.push_back(p->data);
+            myvector.push_back(p->val);
             if(p->left==NULL && p->right==NULL){
                 cout << "Output path: " <<endl;
                 for(vector<int>::iterator itr =myvector.begin(); itr != myvector.end(); itr++){
@@ -97,7 +97,7 @@ void BT::insert(int d)
     	cout << MaxDepth(root);
     }
     
-    int BT::MaxDepth(node* root){
+    int BT::MaxDepth(TreeNode* root){
         if(root == NULL) return 0;
         else{
             if(root->left==NULL && root->right==NULL){
@@ -109,4 +109,50 @@ void BT::insert(int d)
                 return  maxLeft>maxRight  ? maxLeft+1 : maxRight+1;
             }
         }
+    }
+    
+    void BT::displayLevelTraverse_Itr(){
+    	vector<vector<int> > levelTraverse = levelOrderBottom_Itr(root);
+    	int num_level = levelTraverse.size();
+    	for (int i=0; i<num_level; i++){
+    		cout << "The " << i << "th: "; 
+    		outputVector(levelTraverse[i]);
+    		cout << endl;
+    	}
+    }
+    
+    void BT::outputVector(vector<int> myvector){
+    	for(vector<int>::iterator itr = myvector.begin(); itr < myvector.end(); itr++){
+    		cout << *itr << " ";
+    	}
+    }
+    
+    
+    vector<vector<int> > BT::levelOrderBottom_Itr(TreeNode* root){
+    	vector<vector<int> > result;
+        vector<int> level;
+        queue<TreeNode*> myqueue;
+        stack<vector<int> > mystack;
+        if(root==NULL) return result;
+        myqueue.push(root);
+        myqueue.push(NULL);
+        while(!myqueue.empty()){
+            TreeNode* node = myqueue.front();
+            myqueue.pop();
+            if(node!=NULL){
+                level.push_back(node->val);
+                if(node->left != NULL) myqueue.push(node->left);
+                if(node->right != NULL) myqueue.push(node->right);
+            }
+            else{
+                mystack.push(level);
+                level.clear();
+                if(!myqueue.empty()) myqueue.push(NULL);
+            }
+        }
+        while(!mystack.empty()){
+            result.push_back(mystack.top());
+            mystack.pop();
+        }
+        return result;
     }

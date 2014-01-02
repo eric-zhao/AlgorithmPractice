@@ -7,15 +7,15 @@ int main()
         BT b;
         int ch,tmp,num;
         vector<int> myvector;
-            cout << "Enter number of nodes: ";
-            cin >> num;
-            for(int i=0; i<num; i++)
-            {
-                cout <<endl;
-                cout << "Enter node: ";
-                cin >> tmp;
-                b.insert(tmp);
-            }
+//            cout << "Enter number of nodes: ";
+//             cin >> num;
+//             for(int i=0; i<num; i++)
+//             {
+//                 cout <<endl;
+//                 cout << "Enter node: ";
+//                 cin >> tmp;
+//                 b.insert(tmp);
+//             }
             choice:
             cout <<endl<<endl;
             cout << "Enter your choice: ";
@@ -24,7 +24,8 @@ int main()
             cout << "[3] Post-order Traversal" <<endl;
             cout << "[4] Output Paths from root to leaves";
             cout << "[5] Output the maximum depth of the tree" <<endl;
-            cout << "[6] Exit" <<endl;
+            cout << "[6] Output all levels" << endl;
+            cout << "[7] Exit" <<endl;
             cin >> ch;
            switch(ch)
            {
@@ -53,8 +54,14 @@ int main()
                	   cout<<" Output the maximum depth of the tree: "<<endl;
                	   b.displayMaxDepth();
                case 6: 
+               	   cout<<endl;
+               	   cout<<" Output the levels of the tree: "<<endl;
+               	   b.displayLevelTraverse_Itr();
                    return 0;
                    break;
+               case 7:
+               	   return 0;
+               	   break;
                default:
                    cout << "Invalid entry. Try Again";
                    goto choice;
